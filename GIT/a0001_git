@@ -85,5 +85,24 @@ Installation
                     Files marked "M" (Modifided) in file explorer
                     then do
                     git add /GIT or git add GIT/a0001_git   / status will change: "M" will become "A" /
+           
+            3. Repository   / files and folders --> .git/objects /
+                Example:
+                    git commit -m "07/22/2023"      
+                        $ git commit -m "07/22/2023"
+                        [main 436824f] 07/22/2023
+                        1 file changed, 89 insertions(+)
+                        create mode 100644 GIT/a0001_git
+
+            4. Excluding files
+                Example:
+                   I created the file "dont_want_to_track" / Status: Untracked files -->only "dont_want_to_track"
+                   In root directory create a file .gitignore, then add the filename "dont_want_to_track" in it. / Status: Untracked files--> only ".gitignore"
+                   *If you want to exclude a folder then add /folder in the .gitignore
+                   then do
+                   git add .
+                   git status   / -->new file:   .gitignore, the file "dont_want_to_track" doesn`t show anymore /
+
+
 
     -Ubuntu-Server 
