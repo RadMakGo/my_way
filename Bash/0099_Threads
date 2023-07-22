@@ -1,0 +1,94 @@
+STDIN
+STDOUT
+STDERR
+
+#
+Scheme_01
+
+STDIN===>PROGRAM===>STDOUT
+            ||
+            ||
+          STDERR
+
+#
+#
+#
+Scheme_02
+
+STDIN===>PROGRAM_01===>STDOUT(P1)
+            ||        >>STDIN(P2)===>PROGRAM_02===>STDOUT(P2)
+            ||                          ||
+          STDERR                        ||
+                                      STDERR
+
+
+
+-=PSEUDODEVICES=-
+
+/dev/null       / it`s like a black hole
+    #Example_01
+        cat /var/log/syslog >/dev/null          
+        $    
+    
+    #Example_02    / Suppressing SRDERR output
+        rm no-file
+        rm: cannot remove 'no-file': No such file or directory
+        $
+        -=but=-
+        rm no-file 2>/dev/null         
+        $
+
+    #Example_03     / Suppression of output, both on stdout and on stderr.
+        cat SomeFile 2>/dev/null >/dev/null
+        # If "$filename" is not found, then you will not see an error message.
+        # If "$filename" exists, then you won't see its contents.
+        # Thus, the above command does not output anything to the screen.
+        #
+        # This technique is useful when you only need to check the command completion code
+        #+ and it is undesirable to display the result of the command on the screen.
+        #
+        cat SomeFile &>/dev/null
+        # gives the same result
+
+    #Example_04
+    touch test-file
+    ll | grep test-file
+    -rw-rw-r--  1 user user    0 июл 20 13:17 test-file     
+    nano test-file      / add some data
+    cat test-file
+    I've added some data
+    0,1,2,3,4,5,6,7,8,9
+    cat /dev/null > test-file
+    cat test-file  
+    ll | grep test-file
+    -rw-rw-r--  1 user user    0 июл 20 13:20 test-file
+    # Deleting the contents of the file, while preserving the file itself, with all its access rights (clearing the file)
+    : > test-file gives the same effect, but does not spawn a child process.
+    
+
+/dev/zero       / gives us zero
+#Like the pseudo-device /dev/null, /dev/zero is also a pseudo-device, with the only difference that it contains zeros. 
+#The information output to this file also disappears without a trace. Reading zeros from this file may cause some difficulties, 
+#but this can be done, for example, using the od command or a hexadecimal editor. Basically, /dev/zero is used to create 
+#a blank file with a given length.
+    #Example
+    dd if=/dev/zero of=upload_test bs=10000 count=1
+    #It creates a file about 10K
+
+
+
+/dev/random     /random number generator
+/dev/urandom    /pseudorandom number generator
+
+    #Example
+        radik@srv-61:~/.ssh$ sudo < /dev/urandom tr -dc A-Za-z0-9 | head -c14; echo
+        sdMJ4w25Bphmff
+        radik@srv-61:~/.ssh$
+
+        Details:
+            < redirecting standard input
+            /dev/urandom - accessing the device /dev/urandom
+            tr -dc A-Za-z0-9 - filtering output from /dev/urandom, according to which only characters from pass through the filter form A до Z, to a до z and numbers from 0 to 9.
+            | - redirecting the stream to the head command
+            head -c14 - generating a string consisting of 14 characters
+            echo - output of the generated string to the console

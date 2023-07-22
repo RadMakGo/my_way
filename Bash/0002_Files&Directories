@@ -1,0 +1,21 @@
+#
+#
+#
+mkdir SomeDirectory   / creates a directory "SomeDirectory" in the current directory
+       -v / shows details
+       -p / creates all elements (all parents) of the path  / no error if existing /
+    # Example 
+        $ mkdir -v -p ./kvm/{vhdd,iso}
+        mkdir: created directory './kvm'
+        mkdir: created directory './kvm/vhdd'
+        mkdir: created directory './kvm/iso'
+#
+#
+#
+touch      /change file timestamps, BUT if a SomeFileName doesn`t exist, the command creates a file SomeFileName
+    
+    # Example
+        $ touch SomeFileName
+        $ ll SomeFileName 
+        -rw-r--r-- 1 Radik 197121 0 Jul 19 23:46 SomeFileName
+

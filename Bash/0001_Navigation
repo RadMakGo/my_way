@@ -1,0 +1,11 @@
+ pwd   / show your current directory (print working directory)
+ cd    / moving to the home directory
+ cd ~  / moving to the home directory
+ cd .. / moving to one level up
+ cd -  / moving to the previous directory
+ 
+ cd "Some_Directory"                        / moving to "SomeDirectiry"
+ cd "SomeDirectory/Some_other_Directory"    / moving to "SomeDirectory/Some_other_Directory"
+
+# Example
+    cd /home/user/
