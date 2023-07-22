@@ -1,0 +1,89 @@
+Some transcription My_program v 2.41.2
+                                |  | |
+                                |  | Patch
+                                |  |
+                                | Minor
+                              Major
+                                   
+Given a version number MAJOR.MINOR.PATCH, increment the:
+    MAJOR version when you make incompatible API changes;
+    MINOR version when you add functionality in a backward compatible manner;
+    PATCH version when you make backward compatible bug fixes;
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+More information --> https://semver.org/
+
+Installation
+    -Windows
+        1. Download https://git-scm.com/download/win
+        or use PowerShell:
+             winget install --id Git.Git -e --source winget
+        2. Install by default
+        3. Check version
+            in Git Bash console: git --version      / if you can see the version - Ok/
+                                 git --help         / will provide you more information /
+
+
+        You have an option:
+                    -use Git Bash console
+                    -use Terminal in Visual Studio Code (ctrl + ~)
+                        *Anyway you have to use Linux commands like cd,ll, mkdir, etc
+
+        4. Create a folder for your repository using cd, mkdir, etc. You may use windows explorer as well
+                Example:
+                    cd /d/Install/GIT
+                    mkdir my_way; cd my_way            
+        5. Initialisation the repository
+                    git init        / Inside the folder my_way will be created the hidden folder .git /
+
+        6. We have to set a username and email
+                Example:
+                    git config --global "Radik Makhmudov"
+                    git config --global Radik.M@itbumper.com
+                    git config --list / check global configuration /
+
+        7. Start using
+
+        The levels 
+            1. Working directory
+                -create a folder 
+                -create a file and edit
+                The first state of new folders and files are "Untracked"  / Folders - green dot, files marked "U" in file explorer" /   
+                Example:
+                    mkdir GIT; cd GIT
+                    touch a0001_git
+                    git status  /shows the current branch name, untracked files and folders /
+                        $ On branch main
+                        Your branch is up to date with 'origin/main'.
+                        Untracked files:
+                        (use "git add <file>..." to include in what will be committed)
+                        GIT/
+                        nothing added to commit but untracked files present (use "git add" to track)
+                
+            2. Staging area (index)  /files and folders --> .git/objects
+                Example:
+                    git add GIT/
+                    git status
+                        $ On branch main
+                        Your branch is up to date with 'origin/main'.
+                        Changes to be committed:
+                        (use "git restore --staged <file>..." to unstage)
+                        new file:   GIT/a0001_git
+                    Files marked "A" (Added) in file explorer
+                    to add * folders and files use git add .
+
+                If file was changed then
+                    git status
+                        $ On branch main
+                        Your branch is up to date with 'origin/main'.
+                        Changes to be committed:
+                        (use "git restore --staged <file>..." to unstage)
+                        new file:   GIT/a0001_git
+                        Changes not staged for commit:
+                        (use "git add <file>..." to update what will be committed)
+                        (use "git restore <file>..." to discard changes in working directory)
+                        modified:   GIT/a0001_git
+                    Files marked "M" (Modifided) in file explorer
+                    then do
+                    git add /GIT or git add GIT/a0001_git   / status will change: "M" will become "A" /
+
+    -Ubuntu-Server 
