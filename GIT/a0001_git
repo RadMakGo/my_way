@@ -137,11 +137,15 @@ Installation
             
             Select branch
                 Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
+                Be aware. If you have modified files, decide in which branch you will commit to the current state.
                 Example:
                     git checkout new_branch
                     $ git checkout new_branch
                     Switched to branch 'new_branch'
                     M       GIT/a0001_git
+
+
+
 
 
 
