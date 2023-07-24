@@ -60,8 +60,8 @@ Installation
                         nothing added to commit but untracked files present (use "git add" to track)
                 
             2. Staging area (index)  /files and folders --> .git/objects
-                Example:
-                    git add GIT/
+                    Example:
+                    git add GIT/    # We gonna add the whole directory named GIT
                     git status
                         $ On branch main
                         Your branch is up to date with 'origin/main'.
@@ -94,15 +94,49 @@ Installation
                         1 file changed, 89 insertions(+)
                         create mode 100644 GIT/a0001_git
 
-            4. Excluding files
+        How to:
+            Excluding files
+                Just add the file or folder name in the file .gitignore
                 Example:
-                   I created the file "dont_want_to_track" / Status: Untracked files -->only "dont_want_to_track"
-                   In root directory create a file .gitignore, then add the filename "dont_want_to_track" in it. / Status: Untracked files--> only ".gitignore"
-                   *If you want to exclude a folder then add /folder in the .gitignore
-                   then do
-                   git add .
-                   git status   / -->new file:   .gitignore, the file "dont_want_to_track" doesn`t show anymore /
+                    I created the file "dont_want_to_track" / Status: Untracked files -->only "dont_want_to_track"
+                    In root directory create a file .gitignore, then add the filename "dont_want_to_track" in it. / Status: Untracked files--> only ".gitignore"
+                    *If you want to exclude a folder then add /folder in the .gitignore
+                    then do
+                    git add .
+                    git status   / -->new file:   .gitignore, the file "dont_want_to_track" doesn`t show anymore /
+            
+            Figure out in which branch you work
+                Remember. There are two types of branches: local and remote. In the VSC, have a look at the left bottom corner (GIT label)
+                Examples:
+                    git branche     / shows current local branche /
+                    $ git branch
+                    * main
+
+                    git branche - a / shows current remote branche /
+                    $ git branch -a
+                    * main
+                      remotes/origin/main
+            Create a new branche
+                Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
+                Example:
+                    git branch New_Branch
+                    git branch
+                    $ git branch 
+                     New_Branch     / just created branch /
+                    * main          / * -means currently chosen branch / 
+
+            Delete some branch
+                Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
+                Example:
+                    git branch -D New_Branch
+                    $ git branch -D New_Branch
+                    Deleted branch New_Branch (was 3d3bc2d).
+            
 
 
+
+branches 23-43
 
     -Ubuntu-Server 
+
+     ssh -T git@github.com  первое подключение к гиту по сертификату
