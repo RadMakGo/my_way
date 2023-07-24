@@ -116,6 +116,7 @@ Installation
                     $ git branch -a
                     * main
                       remotes/origin/main
+
             Create a new branche
                 Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
                 Example:
@@ -124,6 +125,8 @@ Installation
                     $ git branch 
                      New_Branch     / just created branch /
                     * main          / * -means currently chosen branch / 
+                If you want create a new branch and make it the current use this command:
+                git checkout -b New_Branch
 
             Delete some branch
                 Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
@@ -132,11 +135,14 @@ Installation
                     $ git branch -D New_Branch
                     Deleted branch New_Branch (was 3d3bc2d).
             
+            Select branch
+                Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
+                Example:
+                    git checkout new_branch
+                    $ git checkout new_branch
+                    Switched to branch 'new_branch'
+                    M       GIT/a0001_git
 
 
 
-branches 23-43
 
-    -Ubuntu-Server 
-
-     ssh -T git@github.com  первое подключение к гиту по сертификату
