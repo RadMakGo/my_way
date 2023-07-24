@@ -178,3 +178,26 @@ Installation
 
 
 
+
+
+Tracking status:
+    -untracked
+    -unmodified
+    -modified
+    -staged
+
+Type of objects in GIT: (each object has a unique ID: hash-->sha1)
+    -blob   / file /
+    -tree   / folder /
+    -commit / commit /
+    -annotated tag  
+
+
+    The commit refers to the tree
+    Each commit has:
+     -Author`s name and email address
+     -Commit`s description
+     -Parent(s) commit(s)   -->sha1
+     -Tree                  -->sha1
+
+    

@@ -1,0 +1,51 @@
+git init
+git status
+git add <file / folder / .>
+git commit -m "Some information / message"
+git commit <edit in the text editor>
+git log
+git checkout <commit hash sha1>
+git checkout <branch name>
+git cat
+
+
+$ git log
+commit bb65eed885c160dc6dc388dd7c4a42a3aead54fa (HEAD -> main, origin/main)
+Author: Radik.M <Radik.M@itbumper.com>
+Date:   Sun Jul 23 23:52:42 2023 -0700
+The two first simbols in the hash are "bb" and it means than you can find 
+
+$ ls .git/objects
+                                                                                      * 
+08/  11/  2b/  2f/  36/  3d/  42/  4c/  55/  68/  77/  7e/  83/  86/  9e/  a4/  af/  bb/  c3/  c8/  d8/  e3/  e5/  e7/  f1/    pack/
+10/  17/  2e/  35/  3c/  41/  43/  51/  62/  75/  79/  80/  85/  92/  a0/  a7/  b0/  bc/  c6/  d4/  da/  e4/  e6/  e9/  info/
+
+$ ls .git/objects/bb
+65eed885c160dc6dc388dd7c4a42a3aead54fa
+
+in git log commit = folder (bb) + 65eed885c160dc6dc388dd7c4a42a3aead54fa ( ls .git/objects/bb )
+
+$ git cat-file -t bb65eed         (a small part of the hash)
+commit              / now we know what the type of object is /
+
+$ git cat-file -p bb65eed
+tree 3576c88ef13ee05539aa73009de93edd1a874a0e                    
+parent 42240c8bc689f25766cdb31b286519988b59b2fa
+author Radik.M <Radik.M@itbumper.com> 1690181562 -0700
+committer Radik.M <Radik.M@itbumper.com> 1690181562 -0700
+
+
+Now we get some info about the tree
+$ git cat-file -p 3576c88e
+100644 blob a013ff39131448178649714dbfb00c2f0e562bd8    .gitignore
+040000 tree 2ede4efe86dff6185dc90015a77c85944e31edbd    .vscode
+040000 tree e3621d92f5b18e88c4c446e4bf327e8cd2f170ed    Bash
+040000 tree b0479e5d3b7ad07e3e6e15fb10e5efacb1ce5d6c    GIT
+100644 blob e488e34f8e74785aa987e1a42222f64538153ac5    README.md
+
+$ git cat-file -p a013ff39
+dont_want_to_track
+/logs
+
+
+
