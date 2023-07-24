@@ -48,4 +48,46 @@ dont_want_to_track
 /logs
 
 
+HEAD detached mode
+$ git log --> take a needed commit hash
+$ git checkout 4e1d039
+Note: switching to '4e1d039'.
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+  git switch -c <new-branch-name>
+Or undo this operation with:
+  git switch -
+Turn off this advice by setting config variable advice.detachedHead to false
+HEAD is now at 4e1d039 07/24/2023
+
+Let's find out what the file README.md contents were in that commit.
+
+cat README.md
+# Things happen, baby; it is a life!
+
+# My name is Radik and I've created this repository for a few reasons:
+# I want to get new skills and improve existing skills working with tools like VS Code, Git, scripting (Bash), Doker, K8S, Ansible, etc
+# The other reason, I want to improve my English skills
+# A couple of months ago, my son started to study Python and I hope it will be useful for him too.
+# Yeah, sometimes I'll write in the Russian language.
+
+Now we retern to the main branch
+$ git checkout main 
+Previous HEAD position was 4e1d039 07/24/2023
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+And view again
+$ cat README.md 
+# Things happen, baby; it is a life!
+
+# My name is Radik and I've created this repository for a few reasons:
+# I want to get new skills and improve existing skills working with tools like VS Code, Git, scripting (Bash), Doker, K8S, Ansible, etc
+# The other reason, I want to improve my English skills
+# A couple of months ago, my son started to study Python and I hope it will be useful for him too.
+# I wish me good luck!
+
 
