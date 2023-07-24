@@ -144,8 +144,36 @@ Installation
                     Switched to branch 'new_branch'
                     M       GIT/a0001_git
 
+            Merge branch
+                When you have completed development in your branch and everything works fine, the final step is merging the branch with the parent (main) branch. This is done with the git merge command.
+                GIT merge basically intergrates your feature branch with all of its commits back to main branch.
+                Be aware. Before doing a merge, you have to be on the main branch.
+                Example:
+                git checkout main
+                git branch
+                $ git branch
+                * main              / the current branch is main = Ok /
+                  new_branch
+                git merge new_branch
+                Merge made by the 'ort' strategy.
+                .gitignore              | 2 +-
+                Bash/Scripts/check_raid | 2 ++
+                2 files changed, 3 insertions(+), 1 deletion(-)
+                create mode 100644 Bash/Scripts/check_raid
 
+                git log
+                commit 42240c8bc689f25766cdb31b286519988b59b2fa (HEAD -> main)
+                Merge: 7947760 68172ff
+                Author: Radik.M <Radik.M@itbumper.com>
+                Date:   Sun Jul 23 23:48:29 2023 -0700
 
+                Merge branch 'new_branch'
+
+                commit 68172ff47d176d53b1c14177ecdad1d7ba8248f7 (new_branch)
+                Author: Radik.M <Radik.M@itbumper.com>
+                Date:   Sun Jul 23 23:27:15 2023 -0700
+
+                The first commit in the branch new_branch
 
 
 
