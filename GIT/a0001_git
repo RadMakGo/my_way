@@ -127,14 +127,16 @@ Installation
                     * main          / * -means currently chosen branch / 
                 If you want create a new branch and make it the current use this command:
                 git checkout -b New_Branch
+                Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
+
+            To rename the current branch use: git branch -m new_branch_name
 
             Delete some branch
-                Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
                 Example:
                     git branch -D New_Branch
                     $ git branch -D New_Branch
                     Deleted branch New_Branch (was 3d3bc2d).
-            
+                Before deleting the branch, you have to set on to another branch. You can`t remove the current branch.
             Select branch
                 Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
                 Be aware. If you have modified files, decide in which branch you will commit to the current state.
@@ -143,6 +145,8 @@ Installation
                     $ git checkout new_branch
                     Switched to branch 'new_branch'
                     M       GIT/a0001_git
+
+                The header is always set on the last commit in the branch. HEAD-->BRANCH-->THE_LAST_COMMIT
 
             Merge branch
                 When you have completed development in your branch and everything works fine, the final step is merging the branch with the parent (main) branch. This is done with the git merge command.

@@ -1,0 +1,5 @@
+Quick open any git project in VCS from terminal
+cd .git
+code .
+Then a git project opers in VCS
+ 
