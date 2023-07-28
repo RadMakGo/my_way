@@ -152,6 +152,9 @@ Installation
                 When you have completed development in your branch and everything works fine, the final step is merging the branch with the parent (main) branch. This is done with the git merge command.
                 GIT merge basically intergrates your feature branch with all of its commits back to main branch.
                 Be aware. Before doing a merge, you have to be on the main branch.
+                Current branch=Recieving branch
+                Merge branch=Feature branch
+                After the merge, we get a Merging commit. The Merging commit has two parents.
                 Example:
                 git checkout main
                 git branch
@@ -178,6 +181,7 @@ Installation
                 Date:   Sun Jul 23 23:27:15 2023 -0700
 
                 The first commit in the branch new_branch
+
 
 
 

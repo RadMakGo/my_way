@@ -92,3 +92,5 @@ $ cat README.md
 
 ============
 2:22:50 branches
+
+git remote set-url origin new.git.url/here чтобы сменить URL репы
