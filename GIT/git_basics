@@ -1,0 +1,44 @@
+Commands used in training:
+git init                                      / initialization a new repository /
+git status                                    / get info about the repository /
+git add <file / folder / .>                   / add file or the whole folder to index (untracked files change their status) /
+git commit -m "Some information / message"    / make a snapshot with a description. No need any action in the VCS /
+git commit <edit in the text editor>          / make a snapshot. You need to add some description in the VCS /
+git log                                       / get information about commits (snapshoots) in the current branch /
+git branch                                    / shows information about the current branch /
+git branch -a                                 / shows all local and remote branches /
+git checkout <branch name>                    / switch to another brunch /
+git checkout <commit hash sha1>               / switch to any commit using the commit hash. Warning "detached HEAD" / 
+git switch -                                  / exit from "detached HEAD" state /
+git cat -t hash                               / shows a type: blob or tree /
+git cat -p hash                               / shows text inside the blob /
+git clone <url>                               / download the remote repository to your local /
+git remote add origin <url>                   / make a connection between your local and remote repositories /
+git push -u origin <branch>                   / sync your local and remote branch /
+git push                                      / send updates of your local repository to your remote repository /
+git pull                                      / recieve updates from your remote repository to your local repository /
+git fetch                                     / downloads updates but don`t make changes in the local repository /
+git remote update                             / updates all remote repositories /
+git remote -v                                 / get more information about remote repository /
+git branch -vv                                / shows how the local repository linked with the remote repository /
+git diff                                      / show diffents /
+git remote set-url origin new.git.url         / change the url /
+
+The most popular GIT hosting services
+GitHub
+BitBucket
+GitLab
+
+  Tracking status:
+    -untracked    /marks files and directories not added in the index yet
+    -unmodified   /added and commited files have no changes
+    -modified     /commited files have changes since last commit
+    -staged       /marked a modified file in its current version to go into your next commit snapshot
+
+
+User manual https://git-scm.com/docs/user-manual
+
+to be continued ...
+
+Tags
+ 

@@ -71,6 +71,13 @@ Installation
                     Files marked "A" (Added) in file explorer
                     to add * folders and files use git add .
 
+                Tracking status:
+                  -untracked    /marks files and directories not added in the index yet
+                  -unmodified   /added and commited files have no changes
+                  -modified     /commited files have changes since last commit
+                  -staged       /marked a modified file in its current version to go into your next commit snapshot
+
+
                 If file was changed then
                     git status
                         $ On branch main
@@ -112,12 +119,12 @@ Installation
                     $ git branch
                     * main
 
-                    git branche - a / shows current remote branche /
+                    git branche - a / shows all current and remote branches /
                     $ git branch -a
                     * main
                       remotes/origin/main
 
-            Create a new branche
+            Create a new branch
                 Two ways to create a new branche: using terminal and an APP. In the VSC, use tools hidden at the left bottom corner (GIT label)
                 Example:
                     git branch New_Branch
@@ -161,7 +168,7 @@ Installation
                 $ git branch
                 * main              / the current branch is main = Ok /
                   new_branch
-                git merge new_branch
+                git merge new_branch    OR  git merge -m "Merge the new_branch into main" new_branch
                 Merge made by the 'ort' strategy.
                 .gitignore              | 2 +-
                 Bash/Scripts/check_raid | 2 ++
@@ -183,29 +190,154 @@ Installation
                 The first commit in the branch new_branch
 
 
+            Clone remote repository
+                git clone <url>  origin     / Copy remote repository to your local repository URL=https or ssh /
+                                            / origin is the default name of the remote repository /
+                                            
+            Add the remote repository
+                git remote add origin <url>
+                                            / origin is the name of the remote repository /
+                After than you have to make a link between local and remote repository / 
+                git push -u origin <branch>
+                                            / origin and branch of the remote repository /
+                You can use pull and push commands when the sync has been done
+           
+            Send updates from your local to remote repository
+                git push        /pushes all local changes to the remote branch /
 
 
+            Download updates from the remote to the local repository
+                git pull       / download and apply all changes (updates) from remote branch to the local /
+
+                git fetch      / downloads updates but don`t make changes in the local repository /
+
+            Get more information about remote repository
+                git remote -v
+                $ git remote -v
+                origin  git@github.com:RadMakGo/my_way.git (fetch)
+                origin  git@github.com:RadMakGo/my_way.git (push)
+
+                git remote -vv     / shows how the local repository linked with the remote repository / 
+                $ git remote -vv
+                origin  git@github.com:RadMakGo/my_way.git (fetch)
+                origin  git@github.com:RadMakGo/my_way.git (push)
+
+        
+
+            Create a token on the GitHub web site:
+                1. Profile-->Settings-->Developer settings-->Personel access tokens-->Generate new token
+                2. Make a note
+                3. Choose expiration date
+                4. Choose scopes
+                5. Generate token
+
+            Connect your local repository to remote repository
+                1. Be sure that you are in the local repository
+                2. Check that your local repository has no any remote repositories
+                    git remote  
+                3. Go to the github web site and add a repository with the same name (local repository)
+                4. Add the remote repository
+                    git remote add origin https://github.com/RadMakGo/my_way.git
+                5. Rename the remote brache
+                    git branch -M main
+                6. Push the local branch main the remote
+                    git push -u origin main         / type username and add token /
+        
+                Type of objects in GIT: (each object has a unique ID: hash-->sha1)
+                    -blob   / file /
+                    -tree   / folder /
+                    -commit / commit /
+                    -annotated tag  
+
+                The commit refers to the tree
+                Each commit has:
+                    -Author`s name and email address
+                    -Commit`s description
+                    -Parent(s) commit(s)   -->sha1
+                    -Tree                  -->sha1
 
 
+                    $ git log
+                    commit bb65eed885c160dc6dc388dd7c4a42a3aead54fa (HEAD -> main, origin/main)
+                    Author: Radik.M <Radik.M@itbumper.com>
+                    Date:   Sun Jul 23 23:52:42 2023 -0700
+                    The two first simbols in the hash are "bb" and it means than you can find 
 
-Tracking status:
-    -untracked
-    -unmodified
-    -modified
-    -staged
+                    $ ls .git/objects
+                                                                                      * 
+                    08/  11/  2b/  2f/  36/  3d/  42/  4c/  55/  68/  77/  7e/  83/  86/  9e/  a4/  af/  bb/  c3/  c8/  d8/  e3/  e5/  e7/  f1/    pack/
+                    10/  17/  2e/  35/  3c/  41/  43/  51/  62/  75/  79/  80/  85/  92/  a0/  a7/  b0/  bc/  c6/  d4/  da/  e4/  e6/  e9/  info/
 
-Type of objects in GIT: (each object has a unique ID: hash-->sha1)
-    -blob   / file /
-    -tree   / folder /
-    -commit / commit /
-    -annotated tag  
+                    ls .git/objects/bb
+                    65eed885c160dc6dc388dd7c4a42a3aead54fa
+
+                    in git log commit = folder (bb) + 65eed885c160dc6dc388dd7c4a42a3aead54fa ( ls .git/objects/bb )
+
+                    $ git cat-file -t bb65eed         (a small part of the hash)
+                    commit              / now we know what the type of object is /
+
+                    $ git cat-file -p bb65eed
+                    tree 3576c88ef13ee05539aa73009de93edd1a874a0e                    
+                    parent 42240c8bc689f25766cdb31b286519988b59b2fa
+                    author Radik.M <Radik.M@itbumper.com> 1690181562 -0700
+                    committer Radik.M <Radik.M@itbumper.com> 1690181562 -0700
 
 
-    The commit refers to the tree
-    Each commit has:
-     -Author`s name and email address
-     -Commit`s description
-     -Parent(s) commit(s)   -->sha1
-     -Tree                  -->sha1
+                    Now we get some info about the tree
+                    $ git cat-file -p 3576c88e
+                    100644 blob a013ff39131448178649714dbfb00c2f0e562bd8    .gitignore
+                    040000 tree 2ede4efe86dff6185dc90015a77c85944e31edbd    .vscode
+                    040000 tree e3621d92f5b18e88c4c446e4bf327e8cd2f170ed    Bash
+                    040000 tree b0479e5d3b7ad07e3e6e15fb10e5efacb1ce5d6c    GIT
+                    100644 blob e488e34f8e74785aa987e1a42222f64538153ac5    README.md
 
-    
+                    $ git cat-file -p a013ff39
+                    dont_want_to_track
+                    /logs
+
+
+                    HEAD detached mode
+                    $ git log --> take a needed commit hash
+                    $ git checkout 4e1d039
+                    Note: switching to '4e1d039'.
+                    You are in 'detached HEAD' state. You can look around, make experimental
+                    changes and commit them, and you can discard any commits you make in this
+                    state without impacting any branches by switching back to a branch.
+                    If you want to create a new branch to retain commits you create, you may
+                    do so (now or later) by using -c with the switch command. Example:
+                    git switch -c <new-branch-name>
+                    Or undo this operation with:
+                    git switch -
+                    Turn off this advice by setting config variable advice.detachedHead to false
+                    HEAD is now at 4e1d039 07/24/2023
+
+                    Let's find out what the file README.md contents were in that commit.
+
+                    cat README.md
+                    # Things happen, baby; it is a life!
+
+                    # My name is Radik and I've created this repository for a few reasons:
+                    # I want to get new skills and improve existing skills working with tools like VS Code, Git, scripting (Bash), Doker, K8S, Ansible, etc
+                    # The other reason, I want to improve my English skills
+                    # A couple of months ago, my son started to study Python and I hope it will be useful for him too.
+                    # Yeah, sometimes I'll write in the Russian language.
+
+                    Now we retern to the main branch
+                    $ git checkout main 
+                    Previous HEAD position was 4e1d039 07/24/2023
+                    Switched to branch 'main'
+                    Your branch is up to date with 'origin/main'.
+
+                    And view again
+                    $ cat README.md 
+                    # Things happen, baby; it is a life!
+
+                    # My name is Radik and I've created this repository for a few reasons:
+                    # I want to get new skills and improve existing skills working with tools like VS Code, Git, scripting (Bash), Doker, K8S, Ansible, etc
+                    # The other reason, I want to improve my English skills
+                    # A couple of months ago, my son started to study Python and I hope it will be useful for him too.
+                    # I wish me good luck!
+
+                Change url of the remote repository
+                    git remote set-url origin new.git.url
+                    
