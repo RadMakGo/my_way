@@ -8,7 +8,7 @@
                 |
                 [INIT]
                     |
-                    [Runlevel]
+                    [Runlevel/Upstart/systemd]
 
 
 BIOS / UEFI     -system runs
