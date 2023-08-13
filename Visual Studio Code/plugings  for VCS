@@ -1,0 +1,19 @@
+# Shellman        - is a VS Code snippet extension for shell scripts. It provides a free ebook (PDF, epub, mobi) that contains scripting basics and snippets.
+# ShellCheck      - is a shell script static analysis tool. By installing ShellCheck, you can avoid many beginner pitfalls.
+
+
+# shell-format    - formats shell scripts, Dockerfiles, gitignore, dotenv, and more. Shell-format helps you with indentations, removing extra spaces, and alignment.
+    usage:
+    shift+option+f
+    shift+command+p then type Format Document
+
+
+# Bash Debug      - is the most popular Bash debugger. It provides launch.json, pause support, watch-debug, and conditional breakpoints.
+    Useful hint: shellcheck extension does a great job with finding common script errors before debugging
+
+
+# Indent-rainbow  - you can use Indent-rainbow for all programming languages. It makes indentation more readable by colorizing the indentation on each block of code.
+
+# VSC-Essentials  - There are some essential extensions which I will recommend for anyone to have installed if working with shared code base repositories.
+
+

@@ -1,0 +1,289 @@
+[BIOS/UEFI]
+    |
+    [MBR/GPT]
+        |
+        [LILO/GRUB]
+            |
+            [Linux Kernel]
+                |
+                [INIT]
+                    |
+                    [Runlevel]
+
+
+BIOS / UEFI     -system runs
+MBR / GPT       -the first booting level
+LILO / GRUB     -the second booting level
+Linux Kernel    -Core runs
+INIT            -User environment
+
+
+loaders:
+NTLDR       -Windows
+LILO        -one of the standart loaders for Linux and BSD - systems
+GRUB        -from GNU project
+BootX       -MacOS
+Chameleon   -cross-platform
+
+BootMenu
+shift
+e -edit
+
+
+cat /var/log/dmesg - show info about last booting process only it is not the same dmesg -T 
+
+
+Folder  /boot includes core images
+        /boot/grub  includes configurations
+
+OS initializing
+
+Init SysV           -runlevel   /etc/init.d/    /etc/init.d/service stop or /etc/init.d/service start 
+Init Systemd        -fast run (multi-threaded)
+Init Upstart        -uses events (services and tasks, /etc/init - jobs, initctl - for managemenet upstart)
+
+pstree
+
+
+
+SysV (Runlevel):                             Systemd (Target)
+-0 shutdown                                   poweroff.target
+-1 one user mode                              rescue.target
+-2 Debian/Ubuntu by default (but now 5)       multi-user.target
+-3 RedHat/Suse by default /text mode          multi-user.target
+-4 WildCard (anything you want)               multi-user.target
+-5 RedHat/Suse GUI mode                       graphical.target
+-6 reboot                                     reboot.target
+
+
+
+init        -initialization management
+telinit     -management init process
+wall        -message for system users
+halt        -shutdown (power stay on, only OS shutdown)
+reboot      -reboot
+shutdown    -shutdown schedule 
+service service_name start|stop|reload|restart
+runlevel    -show current run level
+
+#example
+init 5 or telinit 5
+
+
+                                     init                                    systemd
+View all services               service --status-all            systemctl service --state active
+Stop the service                service httpd stop              systemctl stop httpd.service
+Start the service               service httpd start             systemctl start httpd.service
+Check the service status        service httpd status            systemctl status https.service
+Add the service in autostart    chkconfig httpd on              systemctl enable httpd.service  
+Delete the service in autostart chkconfig httpd off             systemctl disable httpd.service
+Check the service add or not    checkconfig httpd --list        systemctl is-enabled httpd
+Change the runlevel             init 3                          systemctl isolate runlevel113.target
+Shutdown the system (HW)        shutdown                        systemctl shutdown
+Reboot the system               reboot                          systemctl reboot
+Shutdown the OS only            halt                            systemctl halt
+
+Systemd folders:
+/usr/lib/systemd/system|user/ - includes units like nginx,apache,mysql, etc (default)
+/run/systemd/system|user/     - runtime units
+/etc/systemd/system|user/     - units created/modifided by admin
+
+Check this out https://habr.com/ru/companies/southbridge/articles/255845/
+
+Systemd untits:
+    .service
+    .mount
+    .device
+    .socket
+    .target
+
+Journald - log service (journalctl - f realtime log view, journalctl _UID=0 - shows all event for root)
+systemctl reboot | poweroff | suspend | hibernate | hybrid-sleep
+systemctl start | stop | reload | restart | status unit
+
+
+
+
+How long the OS starts
+systemd-analyze
+Startup finished in 8.800s (kernel) + 9.078s (userspace) = 17.878s
+graphical.target reached after 8.088s in userspace
+
+show tree of dependencies 
+systemctl list-dependencies graphical.target
+graphical.target
+● ├─accounts-daemon.service
+● ├─apport.service
+● ├─display-manager.service
+● ├─e2scrub_reap.service
+● ├─snap-lxd-23991.mount
+● ├─snap-lxd-24061.mount
+● ├─systemd-update-utmp-runlevel.service
+● ├─udisks2.service
+● └─multi-user.target
+●   ├─apport.service
+●   ├─atd.service
+●   ├─console-setup.service
+●   ├─cron.service
+●   ├─dbus.service
+●   ├─dmesg.service
+●   ├─grub-common.service
+●   ├─grub-initrd-fallback.service
+●   ├─irqbalance.service
+●   ├─lxd-agent-9p.service
+●   ├─lxd-agent.service
+●   ├─ModemManager.service
+●   ├─networkd-dispatcher.service
+●   ├─ondemand.service
+●   ├─open-vm-tools.service
+●   ├─plymouth-quit-wait.service
+●   ├─plymouth-quit.service
+●   ├─pollinate.service
+●   ├─rsync.service
+●   ├─rsyslog.service
+●   ├─secureboot-db.service
+●   ├─snap-core18-2751.mount
+●   ├─snap-core18-2785.mount
+●   ├─snap-core20-1950.mount
+●   ├─snap-core20-1974.mount
+●   ├─snap-lxd-23991.mount
+●   ├─snap-lxd-24061.mount
+●   ├─snap-snapd-19361.mount
+●   ├─snap-snapd-19457.mount
+●   ├─snap.lxd.activate.service
+●   ├─snapd.aa-prompt-listener.service
+●   ├─snapd.apparmor.service
+●   ├─snapd.autoimport.service
+●   ├─snapd.core-fixup.service
+●   ├─snapd.recovery-chooser-trigger.service
+●   ├─snapd.seeded.service
+●   ├─snapd.service
+●   ├─ssh.service
+●   ├─systemd-ask-password-wall.path
+●   ├─systemd-logind.service
+●   ├─systemd-networkd.service
+●   ├─systemd-resolved.service
+●   ├─systemd-update-utmp-runlevel.service
+●   ├─systemd-user-sessions.service
+●   ├─thermald.service
+●   ├─ua-license-check.path
+●   ├─ua-reboot-cmds.service
+●   ├─ufw.service
+●   ├─unattended-upgrades.service
+●   ├─basic.target
+●   │ ├─-.mount
+●   │ ├─tmp.mount
+●   │ ├─paths.target
+●   │ │ └─apport-autoreport.path
+●   │ ├─slices.target
+●   │ │ ├─-.slice
+●   │ │ └─system.slice
+●   │ ├─sockets.target
+●   │ │ ├─apport-forward.socket
+●   │ │ ├─dbus.socket
+●   │ │ ├─dm-event.socket
+●   │ │ ├─iscsid.socket
+●   │ │ ├─multipathd.socket
+●   │ │ ├─snap.lxd.daemon.unix.socket
+●   │ │ ├─snapd.socket
+●   │ │ ├─systemd-initctl.socket
+●   │ │ ├─systemd-journald-audit.socket
+●   │ │ ├─systemd-journald-dev-log.socket
+●   │ │ ├─systemd-journald.socket
+●   │ │ ├─systemd-networkd.socket
+●   │ │ ├─systemd-udevd-control.socket
+●   │ │ ├─systemd-udevd-kernel.socket
+●   │ │ └─uuidd.socket
+Dots can be white or green (started or stop)
+
+
+systemd-analyze blame
+45.145s apt-daily-upgrade.service
+ 2.319s snap.lxd.activate.service
+ 2.137s snapd.service
+ 1.580s dev-sda2.device
+ 1.564s systemd-networkd-wait-online.service
+ 1.527s systemd-udev-settle.service
+  963ms modprobe@chromeos_pstore.service
+  960ms motd-news.service
+  938ms systemd-modules-load.service
+  751ms apt-daily.service
+  722ms cloud-init-local.service
+  578ms cloud-init.service
+  543ms lvm2-monitor.service
+  534ms cloud-config.service
+  500ms cloud-final.service
+  496ms snap-core18-2751.mount
+  493ms snap-core18-2785.mount
+  492ms snap-snapd-19457.mount
+  490ms snap-core20-1974.mount
+  485ms snap-snapd-19361.mount
+  423ms snap-lxd-23991.mount
+  384ms man-db.service
+  327ms snap-lxd-24061.mount
+  309ms dev-loop2.device
+  305ms dev-loop1.device
+  294ms ua-timer.service
+  287ms dev-loop3.device
+  262ms e2scrub_reap.service
+  261ms networkd-dispatcher.service
+  236ms swap.img.swap
+  222ms snap-core20-1950.mount
+  204ms udisks2.service
+  200ms snapd.apparmor.service
+  185ms systemd-timesyncd.service
+  184ms accounts-daemon.service
+  179ms systemd-journal-flush.service
+  177ms dev-loop0.device
+  173ms dev-loop4.device
+  167ms ModemManager.service
+  158ms systemd-resolved.service
+  152ms keyboard-setup.service
+  132ms dev-loop5.device
+  132ms logrotate.service
+  129ms systemd-logind.service
+  124ms snapd.seeded.service
+  116ms user@1000.service
+  108ms apport.service
+  106ms grub-common.service
+   97ms systemd-journald.service
+   89ms ssh.service
+   86ms systemd-udevd.service
+   74ms systemd-udev-trigger.service
+   66ms polkit.service
+   62ms systemd-tmpfiles-clean.service
+   61ms user-runtime-dir@1000.service
+   61ms dev-hugepages.mount
+   60ms apparmor.service
+   59ms dev-mqueue.mount
+   58ms sys-kernel-debug.mount
+   57ms sys-kernel-tracing.mount
+   54ms systemd-networkd.service
+   52ms multipathd.service
+   50ms kmod-static-nodes.service
+
+
+systemctl cat ssh
+# /lib/systemd/system/ssh.service
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target auditd.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service

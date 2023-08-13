@@ -2,7 +2,7 @@ Commands used in training:
 git init                                      / initialization a new repository /
 git status                                    / get info about the repository /
 git add <file / folder / .>                   / add file or the whole folder to index (untracked files change their status) /
-git commit -m "Some information / message"    / make a snapshot with a description. No need any action in the VCS /
+git commit -m "Some information message"      / make a snapshot with a description. No need any action in the VCS /
 git commit <edit in the text editor>          / make a snapshot. You need to add some description in the VCS /
 git log                                       / get information about commits (snapshoots) in the current branch /
 git branch                                    / shows information about the current branch /
@@ -36,7 +36,9 @@ GitLab
     -staged       /marked a modified file in its current version to go into your next commit snapshot
 
 
-User manual https://git-scm.com/docs/user-manual
+About merge strategies: https://git-scm.com/docs/merge-strategies
+User manual: https://git-scm.com/docs/user-manual
+Official book: https://git-scm.com/book/en/v2
 
 to be continued ...
 

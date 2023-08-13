@@ -1,6 +1,6 @@
-STDIN
-STDOUT
-STDERR
+0: standard input       STDIN
+1: standard output      STDOUT
+2: standard error       STDERR
 
 #
 Scheme_01
@@ -65,6 +65,10 @@ STDIN===>PROGRAM_01===>STDOUT(P1)
     # Deleting the contents of the file, while preserving the file itself, with all its access rights (clearing the file)
     : > test-file gives the same effect, but does not spawn a child process.
     
+    #Example_05
+    command >> /dev/null 2>&1
+    => 1 output to /dev/null
+    => 2 output is redirected to 1 which is now to /dev/null
 
 /dev/zero       / gives us zero
 #Like the pseudo-device /dev/null, /dev/zero is also a pseudo-device, with the only difference that it contains zeros. 

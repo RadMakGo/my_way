@@ -1,0 +1,110 @@
+In general files and directories have permissions:
+T_UUU_GGG_OOO
+T - type /(-)-file, d-directory, s-socket, l-link, b-block, c-character /
+UUU - user permisions   /r-read, w-write, x-execute/
+GGG - group permisions  /r-read, w-write, x-execute/
+OOO - other permisions  /r-read, w-write, x-execute/
+
+Example:
+-rwx------  1 radmakgo radmakgo    5 июл 31 01:54 perm_test_01*     -it`s a file and only user radmakgo has all (rwx) permissions
+-rwxrwx---  1 radmakgo radmakgo    0 июл 31 01:47 perm_test_02*     -it`s a file and only user radmakgo and users in the radmakgo group have all (rwx) permissions
+-rwxrwxrwx  1 radmakgo radmakgo    0 июл 31 01:47 perm_test_03*     -it`s a file and all users have all (rwx) permissions
+drwxrwxr-x  2 radmakgo radmakgo 4096 июл 31 01:54 perm_test_dir/    -it`s a dir and only user radmakgo and users in the radmakgo group have all (rwx) permissions, other users can only read and execute, no write permission.
+
+Instead of using the letters rwx, you can use the sum of the numbers fto each block UUU/GGG/OOO
+r (read): 4
+w (write): 2
+x (execute): 1
+Example for the files:
+-rwx------  1 radmakgo radmakgo    5 июл 31 01:54 perm_test_01*
+(7=4+2+1)(0=0+0+0)(0=0+0+0) in total 700
+
+-rwxrw-r--  1 radmakgo radmakgo    0 июл 31 02:16 perm_test_04*
+(7=4+2+1)(6=4+2+0)(4=4+0+0) in total 764
+
+Another view )
+Owner:  rwx = 4+2+1 = 7
+Group:  rw- = 4+2+0 = 6
+Others: r-- = 4+0+0 = 4
+
+Use command stat to get more information about the file
+Example:
+radmakgo@srv-61:~/temp$ stat perm_test_04
+  File: perm_test_04
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 802h/2050d      Inode: 265044      Links: 1
+Access: (0764/-rwxrw-r--)  Uid: ( 1000/   radmakgo)   Gid: ( 1000/   radmakgo)
+Access: 2023-07-31 02:16:59.326576194 +0500
+Modify: 2023-07-31 02:16:59.326576194 +0500
+Change: 2023-07-31 02:17:30.078229264 +0500
+ Birth: -
+
+Take a look at the line: Access: (0764/-rwxrw-r--) Nice!
+Also you can see user ID like in the example: Uid 1000 and his name radmakgo
+                group ID like in the example: Gid 1000 and group name radmakgo
+
+
+
+There are two ways to change file or directory permissions: symbolic and numeric methods
+The easiest way is a numeric method:
+Example:
+chmod 644 filename
+chmod 600 directoryname
+chmod -R 744 ~/temp   / -R – recursively for all subfolders and files Sometimes you need to be root or use sudo/
+Example:
+radmakgo@srv-61:~/temp$ sudo chmod -R 744 ~/temp
+radmakgo@srv-61:~/temp$ ll
+total 16
+drwxr--r--  3 radmakgo radmakgo 4096 июл 31 02:16 ./
+drwxr-xr-x 11 radmakgo radmakgo 4096 июл 31 01:47 ../
+-rwxr--r--  1 radmakgo radmakgo    5 июл 31 01:54 perm_test_01*
+-rwxr--r--  1 radmakgo radmakgo    0 июл 31 01:47 perm_test_02*
+-rwxr--r--  1 radmakgo radmakgo    0 июл 31 01:47 perm_test_03*
+-rwxr--r--  1 radmakgo radmakgo    0 июл 31 02:16 perm_test_04*
+drwxr--r--  2 radmakgo radmakgo 4096 июл 31 01:54 perm_test_dir/
+
+
+The symbolic method:
+
+chmod WhoWhatWhich file | directory
+
+Where:
+Who - represents identities: u,g,o,a (user, group, other, all)
+What - represents actions: +, -, = (add, remove, set exact)
+Which - represents access levels: r, w, x (read, write, execute)
+
+Example:
+chmod g+wx perm_test_01         - additional gives write and execute rights to the group
+chmod o-r perm_test_01          - other lose the read permission
+chmod ug+rwx  perm_test_01      - user and group will get read, write and execute perimissions
+chmod ug=rw  perm_test_01       - set exact read and write permissions to the user and the group
+
+
+
+Special file permissions
+Special permissions are available for files and directories and provide additional privileges over the standard permission sets that have been covered.
+
+SUID        only for files          - is the bit that allows you to run the file on behalf of the user
+SGID        for files and folders   - is the bit that allows you to run the file on behalf of the group
+Sticky bit  for folders only        - content protection bit. Only owner can delete file and the directory owner*
+
+Values:
+SUID    =4
+SGUID   =2 
+sticky  =1
+
+Examples:
+4755    - set SUID bit
+6750    - set SUID and SGUID bits
+3764    - set sticky and SGID bits
+
+
+
+
+SUID is the special permission for the user access level and always executes as the user who owns the file, no matter who is passing the command.
+SGID allows a file to be executed as the group owner of the file; a file created in the directory has its group ownership set to the directory owner. This is helpful for directories used collaboratively among different members of a group because all members can access and execute new files.
+The "sticky bit" is a directory-level special permission that restricts file deletion, meaning only the file owner can remove a file within the directory.
+
+
+
+ACL

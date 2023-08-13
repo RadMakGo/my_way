@@ -1,0 +1,14 @@
+lsmod       -information about modules of the core;
+lspci       -information about PCI devices;
+lspcmcia    -information about PCMCIA devices;
+lsusb       -information about USB bus;
+lshw        -information about installed hardware;
+
+
+udevadm
+info        -get information from DB;
+trigger     -make an event request for the device;
+settle      -wait for the end of a process;
+control     -manage a demon;
+monitor     -watch for the events;
+test        -simulate the launch of the event;
