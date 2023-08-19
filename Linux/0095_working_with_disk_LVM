@@ -1,0 +1,541 @@
+
+Disks:        /dev/sda      /dev/sdb    /dev/sdc    ... 
+Partitions:   sda1, sda2      sdb1        sdc1        ... 
+=======================================================
+=================== LVM ===============================
+Phisical volumes:   sda2        sdb1        sdc1
+Volumes group:    ============  vg1    ================
+Logical volumes:  vg1/data    vg1/docs ===free space===
+File system:      mnt/data   /mnt/docs
+
+Abstraction levels. 
+There are three levels:
+PV - phisical volume / pvcreate / We can use phisical disk or its partition(s)
+VG - volume group / vgcreate / Gother PV in the group
+LV - logical value / lvcreate / then 
+
+Install
+apt-get install lvm2
+
+
+pvcreate /dev/sdb /dev/sdc
+pvdisplay
+
+  "/dev/sdb" is a new physical volume of "1,00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdb
+  VG Name               
+  PV Size               1,00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               rR8qya-eJes-7AC5-wuxv-CT7a-o30m-bnUrWa
+   
+  "/dev/sdc" is a new physical volume of "1,00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               
+  PV Size               1,00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               2jIgFd-gQvH-cYkf-9K7N-M7cB-WWGE-9dzHIY
+
+PV Name —  
+VG Name — 
+PV Size — 
+Allocatable — 
+PE Size — 
+Total PE — 
+Free PE — 
+Allocated PE — 
+PV UUID — 
+
+
+vgcreate vg01 /dev/sdb /dev/sdc
+
+vgdisplay
+
+  --- Volume group ---
+  VG Name               vg01
+  System ID             
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               1,99 GiB
+  PE Size               4,00 MiB
+  Total PE              510
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       510 / 1,99 GiB
+  VG UUID               b0FAUz-wlXt-Hzqz-Sxs4-oEgZ-aquZ-jLzfKz
+
+
+VG Name —
+Format — 
+Metadata Areas — 
+VG Access — 
+VG Size — 
+PE Size — 
+Total PE —
+Alloc PE / Size — 
+Free  PE / Size — 
+VG UUID — 
+
+lvcreate [options] <group-name>
+
+Example_01:
+lvcreate -L 1G vg01
+will create a volume 1Gb from the group vg01 
+
+Example_02:
+lvcreate -L50 -n lv01 vg01
+will create a volume named lv01 to 50Mb from the group vg01.
+
+Example_03:
+lvcreate -l 40%VG vg01
+will create a volume  40% of the vg01 group.
+
+Example_04:
+lvcreate -l 100%FREE -n lv01 vg01
+
+additional: 
+%PVS — % from a phisical volume (PV); 
+%ORIGIN — the size of the original volume (use it for snapshots).
+
+
+lvdisplay
+
+  --- Logical volume ---
+  LV Path                /dev/vg01/lv01
+  LV Name                lv01
+  VG Name                vg01
+  LV UUID                4nQ2rp-7AcZ-ePEQ-AdUr-qcR7-i4rq-vDISfD
+  LV Write Access        read/write
+  LV Creation host, time vln.dmosk.local, 2019-03-18 20:01:14 +0300
+  LV Status              available
+  # open                 0
+  LV Size                52,00 MiB
+  Current LE             13
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+
+LV Path — 
+LV Name — 
+VG Name — 
+LV UUID — 
+LV Write Access — 
+LV Creation host, time — 
+LV Size — 
+Current LE — 
+
+mkfs.ext4 /dev/vg01/lv01
+
+
+mkfs.xfs /dev/vg01/lv01
+
+mount /dev/vg01/lv01 /mnt
+
+nano /etc/fstab
+
+/dev/vg01/lv01  /mnt    ext4    defaults        1 2
+
+
+mount -a
+
+df -hT
+
+
+
+
+
+lsblk
+
+
+NAME             MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda                8:0    0   30G  0 disk 
+  sda1             8:1    0    1G  0 part /boot
+  sda2             8:2    0   29G  0 part 
+    sys-root     253:0    0   27G  0 lvm  /
+    sys-swap     253:1    0    2G  0 lvm  [SWAP]
+sdb                8:16   0    1G  0 disk 
+  vg01-lv01-real 253:3    0    1G  0 lvm  
+    vg01-lv01    253:2    0    1G  0 lvm  /mnt
+    vg01-sn01    253:5    0    1G  0 lvm  
+sdc                8:32   0    1G  0 disk 
+  vg01-lv01-real 253:3    0    1G  0 lvm  
+    vg01-lv01    253:2    0    1G  0 lvm  /mnt
+    vg01-sn01    253:5    0    1G  0 lvm  
+  vg01-sn01-cow  253:4    0  500M  0 lvm  
+    vg01-sn01    253:5    0    1G  0 lvm  
+sdd                8:48   0    1G  0 disk
+
+
+
+pvs                         / briefly
+pvdisplay                   / more details
+pvdisplay /dev/sdb          / more details for /dev/sdb
+
+vgs                         / briefly
+vgdisplay                   / more details
+vgdisplay vg01              / more details for /dev/sdb
+
+lvs                         / briefly
+lvdisplay                   / more details
+lvdisplay /dev/vg01/lv01    / more details for /dev/sdb
+
+
+lvmdiskscan                 / search lvm disks
+
+
+-=Increasing volume size (two steps)=-
+    1. add a phisical drive
+    1.1. pvcreate /dev/sdd      if we add a new disk
+   or  pvresize /dev/sda      if we increase space of the disk /dev/sda
+    then check 
+    pvdisplay
+
+    2. add disk to the group
+   2.1. vgextend vg01 /dev/sdd     
+    then check
+    vgdisplay
+
+    3. Increase logical volume space
+    3.1. lvextend -l +100%FREE /dev/vg01/lv01
+
+
+vgdisplay
+
+Step 1. Increasing the logical partition
+   One command only:
+        a) all free space from vg01 to logical volume lv01:
+        lvextend -l +100%FREE /dev/vg01/lv01
+
+        b) certain size (30Gb) from vg01 to logical volume lv01:
+        lvextend -L+30G /dev/vg01/lv01
+        
+        c) up to the required volume size:
+        lvextend -L500G /dev/vg01/lv01
+
+lvdisplay
+
+Check out the option LV Size:
+
+  ...
+  LV Status              available
+  # open                 1
+  LV Size                <2,99 GiB
+  Current LE             765
+  ...
+
+Step 2. Incresing the file system size:
+    take a look at using FS
+    df -T
+Each FS uses its own tools
+   - for ext2/ext3/ext4:
+   resize2fs /dev/vg01/lv01
+
+   - for XFS:
+   resize_reiserfs /dev/vg01/lv01
+
+
+
+-=Reducing volume size=-
+Be aware. You can`t reduce volume size for XFS. Create a small one, move data, delete the first volume.
+
+If you want to reduce system volume then use Linux Live CD.
+
+umount /mnt*
+
+then check a disk
+
+e2fsck -fy /dev/vg01/lv01
+
+Reduce FS size first!!!
+resize2fs /dev/vg01/lv01 500M
+
+Only then reduce volume size
+lvreduce -L-500 /dev/vg01/lv01
+
+Give an answer y:
+
+  WARNING: Reducing active logical volume to 524,00 MiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce vg01/lv01? [y/n]: y
+
+Done.
+
+
+
+-=Deleting volumes=-
+If you want to disassemble LVM volumes, then do
+
+umount /mnt*
+
+Remove or comment a record in fstab:
+
+vi /etc/fstab
+
+#/dev/vg01/lv01  /mnt    ext4    defaults        1 2
+
+lvdisplay
+
+Now remove a logical volume:
+
+lvremove /dev/vg01/lv01
+
+Give a reply (y):
+
+Do you really want to remove active logical volume vg01/lv01? [y/n]: y
+
+vgdisplay
+
+Now remove a logical group:
+
+vgremove vg01
+
+Then remove marks (deinitialization) from disks about LVM
+pvremove /dev/sd{b,c,d}
+*/dev/sdb, /dev/sdc, /dev/sdd.
+
+get info:
+
+  Labels on physical volume "/dev/sdb" successfully wiped.
+  Labels on physical volume "/dev/sdc" successfully wiped.
+  Labels on physical volume "/dev/sdd" successfully wiped.
+
+
+-=Creating a mirrow=-
+Using LVM, we can create a mirrored volume. All data will be sent onto two different physical disks.
+The mirror is available for the group with at least two physical disks. That way, we keep our data safe.
+
+1. Initialize disks:
+
+pvcreate /dev/sd{d,e}
+
+2. Create a group:
+
+vgcreate vg02 /dev/sd{d,e}
+
+3. Create a mirrored volume: 
+
+lvcreate -L200 -m1 -n lv-mir vg02
+
+In example we created the logical volume lv-mir with size 200Mb from the group vg02.
+
+lsblk
+
+
+sdd                       8:16   0    1G  0 disk
+  vg02-lv--mir_rmeta_0  253:2    0    4M  0 lvm
+    vg02-lv--mir        253:6    0  200M  0 lvm
+  vg02-lv--mir_rimage_0 253:3    0  200M  0 lvm
+    vg02-lv--mir        253:6    0  200M  0 lvm
+sde                       8:32   0    1G  0 disk
+  vg02-lv--mir_rmeta_1  253:4    0    4M  0 lvm
+    vg02-lv--mir        253:6    0  200M  0 lvm
+  vg02-lv--mir_rimage_1 253:5    0  200M  0 lvm
+    vg02-lv--mir        253:6    0  200M  0 lvm
+
+In example we can see two 200Mb volumes on each disk.
+
+
+-=Working with snapshots=-
+Snapshots provide us with the rollback option. It`s one of the ways to make a fast backup.
+Be aware. You have to understand that all data keeps on the same physical disk and this way can`t provide a completed backup.
+
+There are two ways: for XFS and others FS
+
+Creating snapshots for non XFS:
+
+lvcreate -L500 -s -n sn01 /dev/vg01/lv01
+
+in this example, we mark 500Mb of disk space on /dev/vg01/lv01 for the snapshot (option -s).
+
+
+Creating snapshots for XFS:
+
+xfs_freeze -f /mnt; lvcreate -L500 -s -n sn01 /dev/vg01/lv01; xfs_freeze -u /mnt
+
+in this example the command  xfs_freeze freeze all operations on XFS.
+
+Take a look at the logical volume:
+
+lvs
+
+LV   VG   Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+lv01 vg01 owi-aos---   1,00g
+sn01 vg01 swi-a-s--- 500,00m      lv01   2,07
+
+the field Origin shows, к какому оригинальному логическому тому относится LV, например, в данной ситуации наш раздел для снапшотов относится к lv01.
+
+or 
+
+lsblk
+
+
+sdc                8:32   0    1G  0 disk 
+  vg01-lv01-real 253:3    0    1G  0 lvm  
+    vg01-lv01    253:2    0    1G  0 lvm  /mnt
+    vg01-sn01    253:5    0    1G  0 lvm  
+  vg01-sn01-cow  253:4    0  500M  0 lvm  
+    vg01-sn01    253:5    0    1G  0 lvm 
+
+С этого момента все изменения пишутся в vg01-sn01-cow, а vg01-lv01-real фиксируется только для чтения и мы может откатиться к данному состоянию диска в любой момент.
+
+Содержимое снапшота можно смонтировать и посмотреть, как обычный раздел:
+
+mkdir /tmp/snp
+
+Монтирование не XFS:
+
+mount /dev/vg01/sn01 /tmp/snp
+
+Монтирование XFS:
+
+mount -o nouuid,ro /dev/vg01/sn01 /tmp/snp
+
+Для выполнения отката до снапшота, выполняем команду:
+
+lvconvert --merge /dev/vg01/sn01
+
+Импорт диска из другой системы
+Если мы перенесли LVM-диск с другого компьютера или виртуальной машины и хотим подключить его без потери данных, то нужно импортировать том.
+
+Если есть возможность, сначала нужно на старом компьютере отмонтировать том и сделать его экспорт:
+
+umount /mnt
+
+* предположим, что диск примонтирован в /mnt.
+
+Деактивируем группу томов:
+
+vgchange -an vg_test
+
+* в данном примере наша группа называется vg_test.
+
+Делаем экспорт:
+
+vgexport vg_test
+
+После переносим диск на новый компьютер.
+
+На новой системе сканируем группы LVM следующей командой:
+
+pvscan
+
+... система отобразит все LVM-тома (подключенные и нет), например:
+
+  PV /dev/sdb    VG vg_test         lvm2 [1020,00 MiB / 0    free]
+  PV /dev/sda5   VG ubuntu-vg       lvm2 [11,52 GiB / 0    free]
+  Total: 2 [12,52 GiB] / in use: 2 [12,52 GiB] / in no VG: 0 [0   ]
+
+* в данном примере найдено два диска с томами LVM — /dev/sdb (группа vg_test) и /dev/sda5 (группа ubuntu-vg).
+
+В моем примере новый диск с группой vg_test — будум импортировать его. Вводим команду:
+
+vgimport vg_test
+
+Возможны два варианта ответа:
+
+1) если мы экспортировали том:
+
+Volume group "vg_test" successfully imported
+
+2) если не экспортировали:
+
+Volume group "vg_test" is not exported
+
+Так или иначе, группа томов должна появиться в нашей системе — проверяем командой:
+
+vgdisplay
+
+... мы должны увидеть что-то на подобие:
+
+  --- Volume group ---
+  VG Name               vg_test
+  System ID             
+  Format                lvm2
+  ...
+
+Активируем его:
+
+vgchange -ay vg_test
+
+Готово. Для монтирования раздела, смотрим его командой:
+
+lvdisplay
+
+... и монтируем в нужный каталог, например:
+
+mount /dev/vg_test/lvol0 /mnt
+
+* в данном примере мы примонтируем раздел lvol0 в группе томов vg_test к каталогу /mnt.
+
+Работа с LVM из под Windows
+По умолчанию, система Windows не умеет работать с томами LVM. Для реализации такой возможности, необходимо установить утилиту Virtual Volumes.
+
+На данный момент на сайте разработчика имеется предупреждение, что программное обеспечение на тестировании и его не следует применять для разделов, где есть важные данные без резервных копий. В противном случае, данные можно потерять.
+
+Возможные ошибки
+Рассмотрим ошибки, с которыми можно столкнуться при работе с LVM.
+
+Device /dev/sdX excluded by a filter 
+Данную ошибку можно встретить при попытке инициализировать диск командой pvcreate.
+
+Причина: либо диск не полностью чист, либо раздел не имеет нужный тип.
+
+Решение: в зависимости от типа проблемы, рассмотрим 2 варианта.
+
+а) если добавляем целый диск.
+
+Удаляем все метаданные с диска командой:
+
+wipefs -a /dev/sdX
+
+* где вместо X (или sdX) подсталвляем имя диска.
+
+б) если добавляем раздел.
+
+Открываем диск с помощью команды fdisk:
+
+fdisk /dev/sdX
+
+* где вместо X (или sdX) подсталвляем имя диска.
+
+Смотрим список созданных на диске разделов:
+
+: p
+
+Задаем тип раздела:
+
+: t
+
+Выбираем номер раздела (например, раздел номер 3):
+
+: 3
+
+Командой L можно посмотреть список всех типов, но нас интересует конкретный — LVM (8e):
+
+: 8e
+
+Сохраняем настройки:
+
+: w
+
+информация взята сhttps://www.dmosk.ru/instruktions.php?object=lvm

@@ -1,0 +1,54 @@
+1. Only 4 primary partitions avaliable for each disk
+2. sda1-sda4 reserved for the primary and extend partitions, you can`t use them for the logical volumes
+Example:
+sda
+ |
+ sda1-primary partition
+ |
+ sda2-extend partition
+ |  |
+ |  sda5
+ |  sda6
+ |
+ sda3-primary partition
+
+ Be aware. Linux can`t see more than one extend volumes. (not sure, but...)
+
+These folders can be mounted to separated volumes of the hard drive(s):
+/     - root file system
+/boot - bootable volume
+/home - home directory
+/root - superuser home directory
+/etc  -system configuration files and components
+/opt  - folder for other applications
+/var  - frequently changing data
+/ust  -all installed packages, documentations, core files
+/tmp  -temprorary files
+/swap -not mounted anywhere
+
+
+fdisk -l      - list all disk and paptitions and Volumes
+fdisk /dev/sd*
+
+
+mkfs.ext4 /dev/sd*
+
+
+swapon       -
+swapoff      -
+/etc/fstab   -mount configuration file
+mkswap       -swap file or volume create utility 
+
+
+
+LVM
+
+Disks:        /dev/sda      /dev/sdb    /dev/sdc    ... 
+Partitions:   sda1, sda2      sdb1        sdc1        ... 
+=======================================================
+=================== LVM ===============================
+Phisical volumes: sda2        sdb1        sdc1
+Volumes group:    ============ vg1=====================
+Logical volumes:  vg1/data    vg1/docs 
+File system:      mnt/data    /mnt/docs
+
