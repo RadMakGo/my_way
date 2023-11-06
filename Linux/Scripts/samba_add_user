@@ -1,0 +1,96 @@
+#STL
+# Run the script with arguments user netview_folder_name 
+# sudo sh .useradd_samba user1 user1pass
+# input user_name
+clear
+echo -n "Enter the user name:"
+read username
+echo
+echo
+echo -n "Enter the folder name:"
+read foldername
+echo
+echo
+echo -n "Enter the user password:"
+read userpassword
+
+
+# add user
+useradd -M -d /samba/$username -s /usr/sbin/nologin -G sambashare $username
+
+
+## (echo newpassword; echo confirmNewPassword) | smbpasswd -s
+echo $userpassword; echo $userpassword | smbpasswd -s
+
+# set password for the user
+# smbpasswd -a $username
+# enable samba user
+smbpasswd -e $username
+
+# create a folder for the user	
+mkdir /samba/$username
+
+# set the folder permissions
+chmod 2770 /samba/$username	
+
+# set the folder owners
+chown sadmin:sambashare /samba/$username
+
+# backup smb.conf
+cp /etc/samba/smb.conf /etc/samba/smb.conf.back
+
+# make changes in smb.conf
+
+echo>>/etc/samba/smb.conf
+echo>>/etc/samba/smb.conf
+echo "[$foldername]">>/etc/samba/smb.conf
+    echo "    path = /samba/$username">>/etc/samba/smb.conf
+    echo "    browseable = yes">>/etc/samba/smb.conf
+    echo "    read only = no">>/etc/samba/smb.conf
+    echo "    force create mode = 0660">>/etc/samba/smb.conf
+    echo "    force directory mode = 2770">>/etc/samba/smb.conf
+    echo "    valid users = $username @sadmin">>/etc/samba/smb.conf
+    echo "    vfs objects = full_audit">>/etc/samba/smb.conf
+    echo "    full_audit:prefix = [home] %u|%I">>/etc/samba/smb.conf
+    echo "    full_audit:failure = none">>/etc/samba/smb.conf
+    echo "    full_audit:success = mkdir rmdir open read pread write pwrite sendfile rename unlink lock">>/etc/samba/smb.conf
+    echo "    full_audit:facility = local5">>/etc/samba/smb.conf
+    echo "    full_audit:priority = debug">>/etc/samba/smb.conf
+
+
+# reload samba configuration
+systemctl reload smbd	
+
+# cleen a display
+clear
+# show created user
+id $1 && echo "User $username was created"
+echo
+echo
+# show created folder
+ls -la /samba/ | grep $username && echo "The folder $username was created"
+echo
+echo
+echo
+# show last part smbd.conf
+tail -n 15 /etc/samba/smb.conf
+
+#make a bat file
+touch ~/$username.bat
+echo "echo off">$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "net use * /delete /y >>null">>~/$username.bat
+echo "klist purge >>null">>~/$username.bat
+echo "net use \\samba\\$foldername /user:$username $password">>~/$username.bat
+echo "explorer \\samba\\$foldername">>~/$username.bat
+
+# to delete user use the command
+# deluser user_name	

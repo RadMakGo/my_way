@@ -7,6 +7,8 @@ git commit <edit in the text editor>          / make a snapshot. You need to add
 git log                                       / get information about commits (snapshoots) in the current branch /
 git branch                                    / shows information about the current branch /
 git branch -a                                 / shows all local and remote branches /
+git branch -m master main                     / rename master to main
+git branch -M main                            / set the branch name to main
 git checkout <branch name>                    / switch to another brunch /
 git checkout <commit hash sha1>               / switch to any commit using the commit hash. Warning "detached HEAD" / 
 git switch -                                  / exit from "detached HEAD" state /
@@ -44,3 +46,9 @@ to be continued ...
 
 Tags
  
+1. git init
+2. git branch -M main
+3. git add .
+4. git commit -m "your comment"
+5. git remote add origin git@github.com:xxxxxxxx/yyyyy.git
+6. git push -u origin main
