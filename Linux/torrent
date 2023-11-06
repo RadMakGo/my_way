@@ -11,3 +11,4 @@ transmission-cli http://releases.ubuntu.com/16.10/ubuntu-16.10-desktop-amd64.iso
 transmission-cli magnet:?xt=urn:btih:e249fe4dc957be4b4ce3ecaac280fdf1c71bc5bb&dn=ubuntu-mate-16.10-desktop-amd64.iso -w ~/Downloads
 
 # using the torrent file
+transmission-cli ubuntu-16.10-desktop-amd64.iso.torrent -w ~/Downloads
