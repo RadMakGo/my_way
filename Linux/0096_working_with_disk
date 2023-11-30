@@ -41,14 +41,4 @@ mkswap       -swap file or volume create utility
 
 
 
-LVM
-
-Disks:        /dev/sda      /dev/sdb    /dev/sdc    ... 
-Partitions:   sda1, sda2      sdb1        sdc1        ... 
-=======================================================
-=================== LVM ===============================
-Phisical volumes: sda2        sdb1        sdc1
-Volumes group:    ============ vg1=====================
-Logical volumes:  vg1/data    vg1/docs 
-File system:      mnt/data    /mnt/docs
 

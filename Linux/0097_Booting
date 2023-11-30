@@ -1,3 +1,11 @@
+
+| MBR |=| BootSector |=============| MFT |========| BootSector  |
+or
+| MBR | PrimaryGPT |==============================| SecondryGPT |
+
+How to backup MBR 
+dd if=/dev/sda of=/root/backup.mbr bs=512 count=1
+
 [BIOS/UEFI]
     |
     [MBR/GPT]
@@ -287,3 +295,4 @@ RuntimeDirectoryMode=0755
 [Install]
 WantedBy=multi-user.target
 Alias=sshd.service
+
