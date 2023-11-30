@@ -1,0 +1,43 @@
+man minidlna
+
+
+sudo apt install minidlna
+sudo service minidlna start
+sudo service minidlna status
+sudo nano /etc/minidlna.conf
+    media_dir = A,/some_folder(s)
+    media_dir = P,/some_folder(s)
+    media_dir = V,/some_folder(s)
+    db_dir = /var/cache/minidlna
+    log_dir = /var/log/minidlna
+    port 8200
+    friendly_name = DLNA-server
+    inotify = yes
+    notify_interval = 30
+
+sudo service minidlna restart
+
+
+iptables -A INPUT -p tcp --dport 8200 -j ACCEPT
+iptables -A INPUT -p udp –-dport 1900 -j ACCEPT
+
+firewall rules to persist
+iptables-save > /etc/iptables/rules.v4
+
+Check
+http://localhost:8200
+
+
+More information https://itadept.ru/linux-dlna-server-minidlna/
+
+
+
+
+
+
+
+
+
+
+
+
