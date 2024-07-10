@@ -12,3 +12,12 @@ settle      -wait for the end of a process;
 control     -manage a demon;
 monitor     -watch for the events;
 test        -simulate the launch of the event;
+
+
+
+Module management
+lsmod       -information about modules of the core;
+modinfo     -information about the module;
+rmmod       -remove the module from the core;
+insmod      -install the module into the core;
+modprobe    -gentle remove or add a module
