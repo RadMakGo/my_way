@@ -1,0 +1,52 @@
+# This script and description will help you install and configure all the necessary applications to  manage, monitor, and maintain your Ubuntu Server.
+
+# 1. Create a file, for example: sys_tools
+# 2. Put in it a code below
+# 3. Save the file
+# 4. Give a right to exec (chmod +x sys_tools)
+# 5. Run it (sudo ./sys_tools)
+
+
+#!/bin/bash
+ 
+# A LOG file
+LOG_FILE="install_log.txt"
+ 
+# A function for installing and loggining
+install_package() {
+    echo "Installing $1..."
+    sudo apt-get install -y $1 >> $LOG_FILE 2>&1
+    if [ $? -eq 0 ]; then
+        echo "$1 installed successfully."
+    else
+        echo "Failed to install $1. Check the log for details."
+    fi
+}
+ 
+# Updating system 
+echo "Updating system..."
+sudo apt-get update && sudo apt-get upgrade -y >> $LOG_FILE 2>&1
+ 
+# Installing tools
+install_package "htop"           # Interactive process viewer
+install_package "net-tools"      # Network tools (ifconfig, netstat) (ifconfig, netstat)
+install_package "curl"           # Tool for transferring data with URL syntax
+install_package "wget"           # Utility for non-interactive download of files from the web
+install_package "vim"            # Text editor
+install_package "git"            # Version control system
+install_package "ufw"            # Simple firewall for managing iptables rules
+install_package "fail2ban"       # Protection against brute-force attacks
+install_package "unattended-upgrades" # Automatic installation of security updates
+install_package "sysstat"        # System monitoring and statistics collection tool
+install_package "nmap"           # Network scanner
+install_package "lsof"           # Tool to list open files and network connections
+install_package "tmux"           # Terminal multiplexer
+install_package "screen"         # Terminal multiplexer
+install_package "ufw"            # Simple firewall manager (iptables)
+install_package "smartmontools"  # Utilities for monitoring and managing S.M.A.R.T. disks
+install_package "mdadm"          # Tool for managing RAID arrays
+install_package "snmp"           # Simple Network Management Protocol for monitoring
+install_package "snmpd"          # Simple Network Management Protocol for network management
+install_package "glances"        # Cross-platform system monitoring tool системы
+ 
+echo "All installations are complete. Check $LOG_FILE for details."

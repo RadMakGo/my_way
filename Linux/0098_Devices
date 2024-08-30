@@ -21,3 +21,5 @@ modinfo     -information about the module;
 rmmod       -remove the module from the core;
 insmod      -install the module into the core;
 modprobe    -gentle remove or add a module
+
+

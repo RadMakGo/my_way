@@ -1,0 +1,62 @@
+# A script that collects detailed hardware data and saves it to a file inventory.info. 
+# The script will collect information using utilities such as lshw, lsblk, lscpu, lspci, lsusb, and df.
+
+# 1. Create a file, for example: collect_inventory
+# 2. Put in it a code below
+# 3. Save the file
+# 4. Give a right to exec (chmod +x collect_inventory
+# 5. Run it (sudo ./collect_inventory)
+
+#!/bin/bash
+
+# File for saving data
+OUTPUT_FILE="inventory.info"
+
+# Create or clean up the file
+> $OUTPUT_FILE
+
+# A function for collecting and writing data to a file
+collect_data() {
+    echo "Collecting hardware information..."
+
+    echo "### Hardware Information ###" >> $OUTPUT_FILE
+
+    echo -e "\n--- General Information ---" >> $OUTPUT_FILE
+    uname -a >> $OUTPUT_FILE
+
+    echo -e "\n--- CPU Information ---" >> $OUTPUT_FILE
+    lscpu >> $OUTPUT_FILE
+
+    echo -e "\n--- Memory Information ---" >> $OUTPUT_FILE
+    free -h >> $OUTPUT_FILE
+
+    echo -e "\n--- Block Devices ---" >> $OUTPUT_FILE
+    lsblk >> $OUTPUT_FILE
+
+    echo -e "\n--- Disk Usage ---" >> $OUTPUT_FILE
+    df -h >> $OUTPUT_FILE
+
+    echo -e "\n--- PCI Devices ---" >> $OUTPUT_FILE
+    lspci >> $OUTPUT_FILE
+
+    echo -e "\n--- USB Devices ---" >> $OUTPUT_FILE
+    lsusb >> $OUTPUT_FILE
+
+    echo -e "\n--- Network Interfaces ---" >> $OUTPUT_FILE
+    ip a >> $OUTPUT_FILE
+
+    echo -e "\n--- Detailed Hardware Information ---" >> $OUTPUT_FILE
+    lshw -short >> $OUTPUT_FILE
+
+    echo "Data collection complete. Saved to $OUTPUT_FILE."
+}
+
+# We check the availability of the necessary utilities & collect data
+if command -v lshw &> /dev/null && command -v lsblk &> /dev/null && \
+   command -v lscpu &> /dev/null && command -v lspci &> /dev/null && \
+   command -v lsusb &> /dev/null && command -v df &> /dev/null; then
+    collect_data
+else
+    echo "Error: One or more required utilities are not installed."
+    exit 1
+fi

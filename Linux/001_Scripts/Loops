@@ -1,0 +1,7 @@
+There are four types of loops in Bash:
+1. for 
+2. while
+3. until
+4. select
+
+Loop control
